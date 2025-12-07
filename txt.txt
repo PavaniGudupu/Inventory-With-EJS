@@ -1,0 +1,108 @@
+section never uses name="" property
+input type=hidden. it wont show.
+❌ A button cannot have href=.
+
+<form class="d-flex" action="/products" method="post" style="gap: 8px;">
+
+this form will handle by this "/products" routes.
+form will send using post method (req.body)
+        "" ""      "" get method (req.query)
+
+
+creating a object:
+        const result = {
+                current: {page, limit}
+        }
+        const result.page = {
+                page: page + 1
+        }
+
+
+ categories: filterColumns.rows,
+
+
+
+
+        const filterColumns = await db.query(`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_name = 'products'
+      ORDER BY ordinal_position;
+      `);
+    
+      console.log(filterColumns.rows);
+
+
+          <!-- <select name="filterCategory" class="form-select" style="width: 150px;">
+      <option value="">All Categories</option>
+    <% categories.forEach(cat => { %>
+     <option value="P.<%= cat.column_name %>">
+            <%= cat.column_name %>
+     </option>
+    <% }) %>
+
+    </select> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+
+    <% if (pagination) { %>
+    <!-- PREVIOUS BUTTON -->
+    <% if (pagination.previous) { %>
+      <li class="page-item">
+        <form action="/products" method="POST">
+          <input type="hidden" name="page" value="<%= pagination.previous.page %>">
+          <input type="hidden" name="limit" value="<%= pagination.previous.limit %>">
+          <button class="page-link" type="submit">Previous</button>
+        </form>
+      </li>
+    <% } else { %>
+      <li class="page-item disabled"><a class="page-link">Previous</a></li>
+    <% } %>
+
+    <!-- PAGE NUMBER BUTTONS -->
+    <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+      <li class="page-item <%= i === pagination.current.page ? 'active' : '' %>">
+        <form action="/products" method="POST">
+          <input type="hidden" name="page" value="<%= i %>">
+          <input type="hidden" name="limit" value="<%= pagination.current.limit %>">
+          <button class="page-link" type="submit"><%= i %></button>
+        </form>
+      </li>
+    <% } %>
+
+    <!-- NEXT BUTTON -->
+    <% if (pagination.next) { %>
+      <li class="page-item">
+        <form action="/products" method="POST">
+          <input type="hidden" name="page" value="<%= pagination.next.page %>">
+          <input type="hidden" name="limit" value="<%= pagination.next.limit %>">
+          <button class="page-link" type="submit">Next</button>
+        </form>
+      </li>
+    <% } else { %>
+      <li class="page-item disabled"><a class="page-link">Next</a></li>
+    <% } %>
+
+
+    <% } %>
+  </ul>
+</nav>
+
+
+
