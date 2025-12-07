@@ -90,18 +90,34 @@
     </table>
 
 
-
-
-<nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-end">
 
     <% if (pagination) { %>
+
+    <!-- FIRST PAGE BUTTON -->
+    <% if (pagination.current.page > 1) { %>
+      <li class="page-item">
+        <form action="/products" method="POST">
+          <input type="hidden" name="page" value="1">
+          <input type="hidden" name="limit" value="<%= pagination.current.limit %>">
+          <input type="hidden" name="searchValue" value="<%= searchValue %>">
+          <input type="hidden" name="filterCategory" value="<%= filterCategory %>">
+          <button class="page-link" type="submit">First</button>
+        </form>
+      </li>
+    <% } else { %>
+      <li class="page-item disabled"><a class="page-link">First</a></li>
+    <% } %>
+
     <!-- PREVIOUS BUTTON -->
     <% if (pagination.previous) { %>
       <li class="page-item">
         <form action="/products" method="POST">
           <input type="hidden" name="page" value="<%= pagination.previous.page %>">
           <input type="hidden" name="limit" value="<%= pagination.previous.limit %>">
+          <input type="hidden" name="searchValue" value="<%= searchValue %>">
+          <input type="hidden" name="filterCategory" value="<%= filterCategory %>">
           <button class="page-link" type="submit">Previous</button>
         </form>
       </li>
@@ -115,6 +131,8 @@
         <form action="/products" method="POST">
           <input type="hidden" name="page" value="<%= i %>">
           <input type="hidden" name="limit" value="<%= pagination.current.limit %>">
+          <input type="hidden" name="searchValue" value="<%= searchValue %>">
+          <input type="hidden" name="filterCategory" value="<%= filterCategory %>">
           <button class="page-link" type="submit"><%= i %></button>
         </form>
       </li>
@@ -126,6 +144,8 @@
         <form action="/products" method="POST">
           <input type="hidden" name="page" value="<%= pagination.next.page %>">
           <input type="hidden" name="limit" value="<%= pagination.next.limit %>">
+          <input type="hidden" name="searchValue" value="<%= searchValue %>">
+          <input type="hidden" name="filterCategory" value="<%= filterCategory %>">
           <button class="page-link" type="submit">Next</button>
         </form>
       </li>
@@ -133,10 +153,27 @@
       <li class="page-item disabled"><a class="page-link">Next</a></li>
     <% } %>
 
+    <!-- LAST PAGE BUTTON -->
+    <% if (pagination.current.page < pagination.totalPages) { %>
+      <li class="page-item">
+        <form action="/products" method="POST">
+          <input type="hidden" name="page" value="<%= pagination.totalPages %>">
+          <input type="hidden" name="limit" value="<%= pagination.current.limit %>">
+          <input type="hidden" name="searchValue" value="<%= searchValue %>">
+          <input type="hidden" name="filterCategory" value="<%= filterCategory %>">
+          <button class="page-link" type="submit">Last</button>
+        </form>
+      </li>
+    <% } else { %>
+      <li class="page-item disabled"><a class="page-link">Last</a></li>
+    <% } %>
 
     <% } %>
   </ul>
 </nav>
+
+
+
 
 <script>
 
@@ -158,11 +195,9 @@ document.getElementById("searchInput").addEventListener("input", function () {
        // } else {
             document.getElementById("searchForm").submit(); // auto search
        // }
-    }, 400); //Search runs only after 400 milliseconds of no typing.
+    }, 600); //Search runs only after 400 milliseconds of no typing.
 });
 </script>
-
-
 
 <script>
   window.onload = function () {
@@ -181,7 +216,6 @@ document.getElementById("searchInput").addEventListener("input", function () {
     }
   };
 </script>
-
 
 
 <%- include('partials/footer') %>

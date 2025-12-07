@@ -255,7 +255,7 @@ app.get("/products/add", async(req, res) => {
 // Insert product (API JSON)
 app.post("/products/add", id_Validation, field_Validation, async (req, res) => {
   try {
-    const { id, name, category_id, mrp, sp, cp, classification, size } = req.body;
+    const { name, category_id, mrp, sp, cp, classification, size } = req.body;
 
     // Duplicate checks
     const codeCheck = await db.query("SELECT * FROM products WHERE id=$1", [id]);
@@ -265,9 +265,9 @@ app.post("/products/add", id_Validation, field_Validation, async (req, res) => {
 
     // Insert
     const result = await db.query(
-      `INSERT INTO products (id, product_name, category_id, mrp, sp, cp, classification, size) 
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`,
-      [id, name, category_id, mrp, sp, cp, classification, size]
+      `INSERT INTO products (product_name, category_id, mrp, sp, cp, classification, size) 
+       VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
+      [name, category_id, mrp, sp, cp, classification, size]
     );
       
    // Fetch all products, category again for rendering
@@ -301,8 +301,14 @@ app.get("/products/edit/:id", async (req, res) => {
     res.render("update.ejs", { 
       product: productRes.rows[0],
       categories: categoriesRes.rows,
-      searchValue: req.query.search || "",       // send empty
-      filterCategory: req.query.filter || ""     // send empty
+      searchValue: req.query.search || "",
+      filterCategory: req.query.filter || "",
+      pagination: {
+        current: {
+          page: parseInt(req.query.page) || 1,
+          limit: parseInt(req.query.limit) || 10
+        }
+      }
     });
 
   } catch (error) {
@@ -320,6 +326,8 @@ app.post("/products/edit/:id", id_Validation, field_Validation, async (req, res)
 
     const searchValue = req.body.searchValue;
     const filterCategory = req.body.filterCategory;
+    const page = parseInt(req.body.page) || 1;
+    const limit = parseInt(req.body.limit) || 10;
 
 
     const idCheck = await db.query("SELECT * FROM products WHERE id=$1", [id]);
@@ -332,14 +340,16 @@ app.post("/products/edit/:id", id_Validation, field_Validation, async (req, res)
     );
 
     res.send(`
-  <form id="redirectForm" action="/products" method="POST">
-    <input type="hidden" name="searchValue" value="${searchValue}">
-    <input type="hidden" name="filterCategory" value="${filterCategory}">
-    <button type="submit">Continue</button>
-  </form>
-  <script>document.getElementById('redirectForm').submit();</script>
-`);
-
+      <form id="redirectForm" action="/products" method="POST">
+        <input type="hidden" name="searchValue" value="${searchValue}">
+        <input type="hidden" name="filterCategory" value="${filterCategory}">
+        <input type="hidden" name="page" value="${page}">
+        <input type="hidden" name="limit" value="${limit}">
+      </form>
+      <script>
+        document.getElementById('redirectForm').submit();
+      </script>
+    `);
 
     //     if (searchValue || filterCategory) {
     //   return res.redirect(
@@ -356,7 +366,7 @@ app.post("/products/edit/:id", id_Validation, field_Validation, async (req, res)
     // `);
 
     // const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
-    res.redirect("/openInventory")
+    //res.redirect("/openInventory")
 
     console.log({ message: "✅ Product updated successfully", product: result.rows[0] });
 

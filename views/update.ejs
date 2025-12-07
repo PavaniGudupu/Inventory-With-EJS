@@ -5,9 +5,11 @@
   <form action="/products/edit/<%= product.id %>" method="POST">
     <input type="hidden" name="id" value="<%= product.id %>">
 
-    <input type="hidden" name="searchValue" value="<%= searchValue %>">
-    <input type="hidden" name="filterCategory" value="<%= filterCategory %>">
-
+ 
+<input type="hidden" name="page" value="<%= pagination?.current?.page %>">
+<input type="hidden" name="limit" value="<%= pagination?.current?.limit %>">
+<input type="hidden" name="searchValue" value="<%= searchValue %>">
+<input type="hidden" name="filterCategory" value="<%= filterCategory %>">
 
 
     <div class="mb-3">

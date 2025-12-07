@@ -35,33 +35,36 @@ const field_Validation = (async(req, res, next) => {
     req.cpNum = cpNum;
 
 
-    if(!name || !category_id || !mrp || !sp || !cp) {
-        return res.status(400).send("▲ Missing required fields.");
-    }
+  function sendAlert(msg) {
+    res.set("Content-Type", "text/html");
+    return res.send(`
+      <script>
+        alert("${msg}");
+        window.history.back();   
+      </script>
+    `);
+  }
 
-    if(isNaN(mrpNum) || isNaN(spNum) || isNaN(cpNum)){
-        return res.status(400).send("▲ MRP, SP, CP must be valid numbers.");
-    }
+  if (!name || !category_id || !mrp || !sp || !cp) {
+    return sendAlert("▲ Missing required fields.");
+  }
+
+  if (isNaN(mrpNum) || isNaN(spNum) || isNaN(cpNum)) {
+    return sendAlert("▲ MRP, SP, CP must be valid numbers.");
+  }
+
+  if (mrpNum <= spNum || mrpNum <= cpNum) {
+    return sendAlert("▲ MRP must be greater than SP and CP.");
+  }
+
+  if (spNum < cpNum) {
+    return sendAlert("▲ SP should not be less than CP.");
+  }
+
+  next();
+});
 
 
-    if (mrpNum <= spNum || mrpNum <= cpNum) {
-        return res.status(400).send("▲ MRP must be greater than SP and CP.");
-    }
-
-    
-    if(spNum < cpNum) {
-        return res.status(400).send("▲ SP should not be less than CP.");
-    }
-
-    next();
-})
-
-
-
-
-
-
-export { field_Validation, id_Validation };
-
+export { id_Validation, field_Validation };
 
 
