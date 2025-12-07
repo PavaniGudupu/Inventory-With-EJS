@@ -1,0 +1,10 @@
+section never uses name property
+input type=hidden. it wont show.
+❌ A button cannot have href=.
+
+<form class="d-flex" action="/products" method="post" style="gap: 8px;">
+
+this form will handle by this "/products" routes.
+form will send using post method (req.body)
+        "" ""      "" get method (req.query)
+

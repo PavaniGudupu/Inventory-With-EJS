@@ -1,0 +1,159 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5; /* keep one background */
+  color: #000;
+}
+
+/* HERO SECTION */
+.hero-section {
+  background-image: url('/images/inventory-bg.jpg'); /* Replace with your actual image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  min-height: 100vh; /* full screen height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 100px 20px;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* dark overlay */
+  z-index: 0;
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-section h1,
+.hero-section p {
+  color: #fff;
+}
+
+.hero-section .btn {
+  margin: 10px;
+}
+
+/* LOGO ICON */
+.jumbotron .logo-icon,
+.hero-section .logo-icon {
+  color: black; /* force logo black */
+}
+
+/* BUTTONS */
+.btn {
+  padding: 10px 25px; /* normal size */
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.save {
+  background: #0077b6;
+  color: white;
+}
+
+.save:hover {
+  background: #005f8c;
+}
+
+.close {
+  background: #ccc;
+}
+
+.close:hover {
+  background: #b5b5b5;
+}
+
+/* Floating ADD button */
+.btn.add {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  padding: 12px 28px;
+  background-color: #0077b6;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn.add:hover {
+  background-color: #005f8c;
+}
+
+/* FORM CONTAINER */
+.form-container {
+  max-width: 1200px;
+  width: 98%;
+  background: #fff;
+  padding: 30px 20px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.mb-3 {
+  border: 1px solid black; /* fixed typo */
+}
+
+/* TABLE */
+.prod-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.prod-table th {
+  background: #0077b6;
+  color: white;
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.prod-table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.action-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .lbl {
+    width: 100%;
+  }
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .form-container {
+    padding: 25px;
+  }
+}

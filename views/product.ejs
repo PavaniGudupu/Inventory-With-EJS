@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Product</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+
+  <h2>➕ Add Product</h2>
+  <form action="/products/add" method="POST">
+    <div class="mb-3">
+      <label class="form-label">ID</label>
+      <input type="number" name="id" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" name="name" class="form-control" required>
+    </div>
+
+    
+
+        <!-- CATEGORY -->
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <select name="category_id" class="form-control">
+              <option selected disabled>Select Category</option>
+                <% categories.forEach(cat => { %>
+                    <option value="<%= cat.category_id %>"
+                      <%= Number(cat.category_id)  %>>
+                        <%= cat.category %>
+                    </option>
+                <% }) %>
+
+            </select>
+        </div>
+
+
+
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">MRP</label>
+      <input type="number" name="mrp" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">SP</label>
+      <input type="number" name="sp" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">CP</label>
+      <input type="number" name="cp" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Classification</label>
+      <input type="text" name="classification" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Size</label>
+      <input type="text" name="size" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="/openInventory" class="btn btn-secondary">Back</a>
+  </form>
+
+</body>
+</html>  
+
+
+
+
