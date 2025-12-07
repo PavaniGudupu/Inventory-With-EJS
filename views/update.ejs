@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+  <h2>Edit Product</h2>
+  <form action="/products/edit/<%= product.id %>" method="POST">
+    <input type="hidden" name="id" value="<%= product.id %>">
+
+    <div class="mb-3">
+      <label>Name</label>
+      <input type="text" name="name" class="form-control" value="<%= product.product_name %>" required>
+    </div>
+
+
+   <div class="mb-3">
+  <label class="form-label">Category</label>
+  <select name="category_id" class="form-control">
+    <% categories.forEach(cat => { %>
+      <option value="<%= cat.category_id %>" 
+        <%= cat.category_id === product.category_id ? "selected" : "" %>>
+        <%= cat.category %>
+      </option>
+    <% }) %>
+  </select>
+</div>
+
+
+    <div class="mb-3">
+      <label>MRP</label>
+      <input type="number" name="mrp" class="form-control" value="<%= product.mrp %>" required>
+    </div>
+    <div class="mb-3">
+      <label>SP</label>
+      <input type="number" name="sp" class="form-control" value="<%= product.sp %>" required>
+    </div>
+    <div class="mb-3">
+      <label>CP</label>
+      <input type="number" name="cp" class="form-control" value="<%= product.cp %>" required>
+    </div>
+    <div class="mb-3">
+      <label>Classification</label>
+      <input type="text" name="classification" class="form-control" value="<%= product.classification %>">
+    </div>
+    <div class="mb-3">
+      <label>Size</label>
+      <input type="text" name="size" class="form-control" value="<%= product.size %>">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="/products" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

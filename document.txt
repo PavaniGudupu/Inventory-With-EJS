@@ -1,0 +1,61 @@
+//  ###### Pagenation ########
+
+1. Middleware function
+  -   const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 10;
+      const offset = (page - 1) * limit;
+      const countResult = await db.query("SELECT COUNT(*) FROM pagination");
+      const total = parseInt(countResult.rows[0].count);
+      const dataResult = await db.query("SELECT * FROM pagination ORDER BY id LIMIT $1 OFFSET $2",[limit, offset]);
+      const result = {};
+      if (offset + limit < total) {
+        result.next = { page: page + 1, limit: limit };
+      }
+      if (offset > 0) {
+        result.previous = { page: page - 1, limit: limit };
+      }
+      result.results = dataResult.rows;
+      res.paginatedResults = result;
+      next();
+
+2. Use the Middleware
+
+3. stored cateogry should show by default
+  EJS, 
+
+      <div class="mb-3">
+      <label class="form-label">Category</label>
+      <select name="category_id" class="form-control">
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat.category_id %>" 
+            <%= cat.category_id === product.category_id ? "selected" : "" %>>
+            <%= cat.category %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+
+
+4. Product List, query should have ORDER BY ASC
+
+Pagination Middleware
+ - returns Products table rows and shows in  tags inside product list.
+
+homeroutte
+
+// Products list with pagination
+app.get("/products", productPagination, async (req, res) => {
+  try {
+    // categories for dropdown
+    const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
+
+    // use paginated results from middleware
+    res.render("productList.ejs", {
+      products: res.paginatedResults.results,   // ✅ products come from pagination
+      categories: categoriesRes.rows,
+      pagination: res.paginatedResults          // ✅ fixed typo
+    });
+  } catch (error) {
+    res.status(500).send("Error fetching products: " + error.message);
+  }
+});
