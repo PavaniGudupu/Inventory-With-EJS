@@ -1,0 +1,193 @@
+body {
+  background-color: #81ecec;
+}
+
+.centered {
+  padding-top: 200px;
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+
+.secret-text {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #000;
+}
+
+
+.btn{
+  padding: 30%;
+}
+
+/* ################## */
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #000;
+}
+
+/* MAIN CONTAINER */
+.container {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.container h1 {
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+/* FORM BOX */
+.form-container {
+  max-width: 1200px;
+  width: 98%;
+  background: #fff;
+  padding: 30px 20px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.mb-3 {
+  border: 1 px solid black;
+}
+
+
+/* ROW */
+.row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.lbl {
+  width: 120px;
+  font-weight: bold;
+}
+
+/* INPUT FIELDS */
+.inp {
+  flex: 0 0 auto;
+  width: 150px;
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.inp.small {
+  width: 250px;
+}
+
+.inp:focus {
+  outline: none;
+  border-color: #0077b6;
+}
+
+/* BUTTONS */
+.btn-row {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn {
+  padding: 10px 25px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.save {
+  background: #0077b6;
+  color: white;
+}
+
+.save:hover {
+  background: #005f8c;
+}
+
+.close {
+  background: #ccc;
+}
+
+.close:hover {
+  background: #b5b5b5;
+}
+
+/* Floating ADD button */
+.btn.add {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  padding: 12px 28px;
+  background-color: #0077b6;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn.add:hover {
+  background-color: #005f8c;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 600px) {
+  .lbl {
+    width: 100%;
+  }
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .form-container {
+    padding: 25px;
+  }
+}
+
+/* TABLE (optional use) */
+.prod-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.prod-table th {
+  background: #0077b6;
+  color: white;
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.prod-table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.action-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}

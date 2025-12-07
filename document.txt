@@ -1,0 +1,97 @@
+create static one firt
+
+### -- BACKEND --##
+
+1. Creat another category table and insert values in it. do foreign key relationships.
+2. in API /category => render the json data
+
+  app.get("/categories", async(req, res) => {
+    try{
+      const result = await db.query("SELECT * FROM public.category ORDER BY category_id ASC ");
+      res.json(result.rows);
+    } catch(err) {
+      res.status(500).send("Error fetching categories");
+    }
+  });
+
+3. in side, post, put, add that column <category_id>
+
+
+### --- EJS --- ###
+ 1. For both add and update pages of EJS,
+
+     <div class="mb-3">
+    <label class="form-label">Category</label>
+    <select name="category_id" class="form-control">
+      <% categories.forEach(cat => { %>
+        <option value="<%= cat.category_id %>"><%= cat.category %></option>
+      <% }) %>
+    </select>
+
+
+
+### -- FRONTEND --##
+
+1. ADD route
+
+  // Show add product form
+  app.get("/products/add", async (req, res) => {
+    const categories = await axios.get(API_URL + "/categories");
+    res.render("product", { categories: categories.data });
+  });
+
+2. in CONFIG Varibale, add 
+{
+  ...
+  category_id: req.body.category_id
+}
+
+
+3. PUT Route,
+  app.get("/products/edit/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+      const response = await axios.get(`${API_URL}/products/product-id/${id}`);
+      const categoriesRes = await axios.get(`${API_URL}/categories`);
+      const product = response.data[0]; // ✅ correct
+      const categories = categoriesRes.data;
+      res.render("update.ejs", { product, categories });
+    } catch (error) {
+      res.send("Error fetching product: " + (error.message));
+    }
+  });
+
+ in CONFIG Varibale, add 
+{
+  ...
+  category_id: req.body.category_id
+}
+
+
+
+
+### -- PRODUCTliST Should show Category instead of Category id --##
+
+1. Index.js
+
+    //all product list
+    // all product list
+    app.get("/product/product-list", async (req, res) => {
+      try {
+        const data = await db.query(`
+          SELECT p.*, c.category 
+          FROM products p
+          LEFT JOIN category c 
+          ON p.category_id = c.category_id
+        `);
+
+        res.json(data.rows);
+
+      } catch (error) {
+        console.log(error.message);
+        res.send(error.message);
+      }
+    });
+
+2. Product LIst,ejs file
+<td><%= product.category %></td>

@@ -1,0 +1,107 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Inventory List</h2>
+  <a href="/products/add" class="btn btn-success mb-3">➕ Add Product</a>
+  <a href="/" class="btn btn-secondary mb-3">CLOSE</a>
+
+
+<!-- <div class="container">
+  <div class="row justify-content-center">
+      <div class="col-md-6">
+          <form>
+              <div class="input-group mb-3">
+
+                  <select class="form-select" style="max-width: 150px;">
+                      <option selected>All Categories</option>
+
+                      <% products.forEach(item => { %>
+                          <option value="<%= item.category %>">
+                              <%= item.category %>
+                          </option>
+                      <% }) %>
+
+                  </select>
+
+                  <input type="text" class="form-control" placeholder="Search...">
+                  <button class="btn btn-primary" type="submit">Search</button>
+
+              </div>
+          </form>
+      </div>
+  </div>
+</div> -->
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form>
+                <div class="input-group mb-3">
+                    <select class="form-select" style="max-width: 150px;">
+                            <option selected>All Categories</option>
+                            <option value="1">Category 1</option>
+                            <option value="2">Category 2</option>
+                            <option value="3">Category 3</option>
+                        </select>
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Category</th>      
+                <th>MRP</th>
+                <th>SP</th>
+                <th>CP</th>
+                <th>Classification</th>
+                <th>Size</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+<tbody>
+    <% products.forEach(product => { %>
+        <tr>
+            <td><%= product.id %></td>
+            <td><%= product.product_name %></td>
+            <td><%= product.category %></td>
+            <td><%= product.mrp %></td>
+            <td><%= product.sp %></td>
+            <td><%= product.cp %></td>
+            <td><%= product.classification %></td>
+            <td><%= product.size %></td>
+
+            <td>
+                <a href="/products/edit/<%= product.id %>" class="btn btn-primary btn-sm">Edit</a>
+
+                <form action="/products/delete/<%= product.id %>" method="POST" style="display:inline;">
+                <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this product?');">
+                    Delete
+                </button>
+                </form>
+
+            </td>
+        </tr>
+    <% }) %>
+</tbody>
+
+    </table>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</nav>
+
+
+<%- include('partials/footer') %>
