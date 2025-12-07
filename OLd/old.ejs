@@ -1,0 +1,120 @@
+<!-- <%- include('partials/header') %>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Inventory List</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>      
+                <th>MRP</th>
+                <th>SP</th>
+                <th>CP</th>
+                <th>Classification</th>
+                <th>Size</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+<tbody>
+    <% products.forEach(product => { %>
+        <tr>
+            <td><%= product.id %></td>
+            <td><%= product.product_name %></td>
+            <td><%= product.mrp %></td>
+            <td><%= product.sp %></td>
+            <td><%= product.cp %></td>
+            <td><%= product.classification %></td>
+            <td><%= product.size %></td>
+
+            <td>
+                <a href="/products/edit/<%= product.id %>" class="btn btn-primary btn-sm">Edit</a>
+
+                <form action="/products/delete/<%= product.id %>" method="POST" style="display:inline;">
+                <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this product?');">
+                    Delete
+                </button>
+                </form>
+
+            </td>
+        </tr>
+    <% }) %>
+</tbody>
+
+    </table>
+
+    <div class="text-center">
+        <a href="/createInventory" class="btn btn-success">Add New Product</a>
+        <a href="/" class="btn btn-secondary btn-sm">Close</a>
+    </div>
+</div>
+
+<%- include('partials/footer') %> -->
+
+
+
+
+
+<!-- <div class="container mt-4 text-left">
+
+  <h2 class="text-center mb-4">Add Product</h2>
+
+<form method="POST" action="/product/add-product">
+
+
+    <div class="form-group row">
+      <label for="code" class="col-sm-2 col-form-label font-weight-bold">Code</label>
+      <div class="col-sm-6">
+        <input type="text" id="code" name="id" class="form-control form-control-sm" placeholder="Enter ID">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label font-weight-bold">Product Name</label>
+      <div class="col-sm-6">
+        <input type="text" id="name" name="name" class="form-control form-control-sm" placeholder="Enter Product Name">
+      </div>
+    </div>
+
+
+
+<div class="form-group row">
+  <div class="col-sm-2">
+    <input type="number" id="mrp" name="mrp" class="form-control form-control-sm" placeholder="MRP">
+  </div>
+
+  <div class="col-sm-2">
+    <input type="number" id="sp" name="sp" class="form-control form-control-sm" placeholder="SP">
+  </div>
+
+  <div class="col-sm-2">
+    <input type="number" id="cp" name="cp" class="form-control form-control-sm" placeholder="CP">
+  </div>
+</div>
+
+
+
+
+
+    <div class="form-group row">
+      <label for="classification" class="col-sm-2 col-form-label font-weight-bold">Classification</label>
+      <div class="col-sm-6">
+        <input type="text" id="classification" name="classification" class="form-control form-control-sm" placeholder="Enter Classification">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="size" class="col-sm-2 col-form-label font-weight-bold">Size</label>
+      <div class="col-sm-6">
+        <input type="text" id="size" name="size" class="form-control form-control-sm" placeholder="Enter Size">
+      </div>
+    </div>
+
+<div class="form-group row">
+    <div class="col-sm-8 offset-sm-2">
+      <button type="submit" formaction="/product/add-product" value="POST" class="btn btn-success btn-sm mr-2">Save</button>
+
+      <a href="/" class="btn btn-secondary btn-sm">Close</a>
+    </div>
+  </div>
+</form> -->

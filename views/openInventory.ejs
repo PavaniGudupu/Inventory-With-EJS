@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+
+<form id="openForm" action="/products" method="POST">
+  <input type="hidden" name="page" value="1">
+  <input type="hidden" name="limit" value="10">
+</form>
+
+<script>
+  document.getElementById("openForm").submit();
+</script>
+
+
+<%- include('partials/footer') %>
+
