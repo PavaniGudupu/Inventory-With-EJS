@@ -76,8 +76,16 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
-    <a href="/openInventory" class="btn btn-secondary">Back</a>
   </form>
+
+<form action="/products" method="POST" style="display:inline;">
+  <input type="hidden" name="searchValue" value="<%= searchValue %>">
+  <input type="hidden" name="filterCategory" value="<%= filterCategory %>">
+  <input type="hidden" name="page" value="<%= pagination.current.page %>">
+  <input type="hidden" name="limit" value="<%= pagination.current.limit %>">
+  <button type="submit" class="btn btn-secondary">Back</button>
+</form>
+
 
 </body>
 </html>

@@ -4,22 +4,15 @@
 
  <div class="container mt-4">
     <h2 class="text-center mb-4">Product List</h2>
-<form action="/products/add" method="GET" style="display:inline;">
-  <input type="hidden" name="limit" value="<%= pagination.current.limit %>">
-  <input type="hidden" name="page" value="<%= pagination.current.page %>">
-  <input type="hidden" name="searchValue" value="<%= searchValue %>">
-  <input type="hidden" name="filterCategory" value="<%= filterCategory %>">
-  <button type="submit" class="btn btn-success mb-2">➕ Add Product</button>
-</form>
-
-<a href="/" class="btn btn-secondary mb-3">CLOSE</a>
+  <a href="/products/add" class="btn btn-success mb-2">➕ Add Product</a>
+  <a href="/" class="btn btn-secondary mb-3">CLOSE</a>
 
 
   <div class="d-flex justify-content-end mb-3">
 <form id="searchForm" class="d-flex" action="/products" method="post" style="gap: 8px;">
 
   <select name="filterCategory" class="form-select" style="width: 150px;">
-      <option value="" disabled>Select the Categories</option>
+      <!-- <option value="" disabled>Select the Categories</option> -->
 
       <!-- Product Table Columns -->
     <option value="p.product_name" <%= filterCategory === "p.product_name" ? "selected" : "" %>>Product Name</option>
@@ -78,7 +71,7 @@
             <td><%= product.size %></td>
 
             <td>
-<form action="/products/edit/<%= product.id %>" method="GET" style="display:inline;">
+<form action="/products/edit/<%= product.id %>" method="POST" style="display:inline;">
   <input type="hidden" name="page" value="<%= pagination.current.page %>">
   <input type="hidden" name="limit" value="<%= pagination.current.limit %>">
   <input type="hidden" name="searchValue" value="<%= searchValue %>">

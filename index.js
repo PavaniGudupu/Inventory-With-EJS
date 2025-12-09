@@ -38,7 +38,6 @@ app.get("/openInventory", (req, res) => {
 
 // Default page load
 
-
 // Products list with pagination
 app.post("/products", async (req, res) => {
   try {
@@ -166,29 +165,28 @@ app.post("/products", async (req, res) => {
 
 //To show category dropdown values, we render from db and show here.
 // Add Product page
+
 app.get("/products/add", async (req, res) => {
   try {
-    const { searchValue, filterCategory, page, limit } = req.query;
-
     const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
+
     res.render("product.ejs", {
       categories: categoriesRes.rows,
-      searchValue: searchValue || "",
-      filterCategory: filterCategory || "",
+
+      searchValue: req.query.search || "",
+      filterCategory: req.query.filter || "",
       pagination: {
         current: {
-          page: parseInt(page) || 1,
-          limit: parseInt(limit) || 10
+          page: parseInt(req.query.page) || 1,
+          limit: parseInt(req.query.limit) || 10
         }
       }
     });
+
   } catch (error) {
     res.status(500).send("▲ Server error: " + error.message);
   }
 });
-
-
-
 
 // Insert product (API JSON)
 app.post("/products/add", id_Validation, field_Validation, async (req, res) => {
@@ -217,18 +215,6 @@ app.post("/products/add", id_Validation, field_Validation, async (req, res) => {
     const totalProducts = parseInt(countRes.rows[0].count);
     const lastPage = Math.ceil(totalProducts / limit);
 
-   // Fetch all products, category again for rendering
-   //Why again? - we are inserting, so it is updated. so need to send updated data
-   // returns all rows
-    // const allProducts = await db.query(`
-    //   SELECT p.*, c.category 
-    //   FROM products p
-    //   LEFT JOIN category c ON p.category_id = c.category_id ORDER BY p.id ASC
-    // `);
-
-    //showing prd, category data(that is inserterd) into product list.
-    // shows all rows from join query
-    //const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
     res.send(`
       <form id="redirectForm" action="/products" method="POST">
         <input type="hidden" name="searchValue" value="${searchValue}">
@@ -320,18 +306,18 @@ app.post("/products/add", id_Validation, field_Validation, async (req, res) => {
 // Show edit page (POST only)
 
 
-app.get("/products/edit/:id", async (req, res) => {
+app.post("/products/edit/:id", async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
 
     const productRes = await db.query("SELECT * FROM products WHERE id=$1", [id]);
     const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
 
     // because GET request has NO body
-    const searchValue = req.query.searchValue || "";
-    const filterCategory = req.query.filterCategory || "";
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const searchValue = req.body.searchValue || "";
+    const filterCategory = req.body.filterCategory || "";
+    const page = parseInt(req.body.page) || 1;
+    const limit = parseInt(req.body.limit) || 10;
 
     res.render("update.ejs", {
       product: productRes.rows[0],
