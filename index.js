@@ -47,7 +47,7 @@ app.post("/products", async (req, res) => {
       const filterCategory = req.body.filterCategory;  
       //let products;
       
-      if(searchValue || filterCategory) {
+      if(searchValue && filterCategory) {
         
         //search Pagination Variables. 
         const page = parseInt(req.body.page) || 1;
@@ -89,7 +89,8 @@ app.post("/products", async (req, res) => {
     products: result.results,
     pagination: result,
     searchValue,
-    filterCategory
+    filterCategory, 
+    limitValue: result.current.limit
   });
 } else {
 
@@ -167,25 +168,25 @@ app.post("/products", async (req, res) => {
 // Add Product page
 app.get("/products/add", async (req, res) => {
   try {
-    const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
+    const { searchValue, filterCategory, page, limit } = req.query;
 
+    const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
     res.render("product.ejs", {
       categories: categoriesRes.rows,
-
-      searchValue: req.query.search || "",
-      filterCategory: req.query.filter || "",
+      searchValue: searchValue || "",
+      filterCategory: filterCategory || "",
       pagination: {
         current: {
-          page: parseInt(req.query.page) || 1,
-          limit: parseInt(req.query.limit) || 10
+          page: parseInt(page) || 1,
+          limit: parseInt(limit) || 10
         }
       }
     });
-
   } catch (error) {
     res.status(500).send("▲ Server error: " + error.message);
   }
 });
+
 
 
 
@@ -197,7 +198,8 @@ app.post("/products/add", id_Validation, field_Validation, async (req, res) => {
     const searchValue = req.body.searchValue;
     const filterCategory = req.body.filterCategory;
     const page = parseInt(req.body.page) || 1;
-    const limit = parseInt(req.body.limit) || 10;
+    const limit = req.body.limit !== undefined ? parseInt(req.body.limit) : 10;
+
 
     // Duplicate checks
 
@@ -248,68 +250,130 @@ app.post("/products/add", id_Validation, field_Validation, async (req, res) => {
 
 // Get UPdate data
 // GET the page with feilds auto filled
+// app.get("/products/edit", async (req, res) => {
+//   const id = parseInt(req.params.id);
+//   try {
+//     //show rows that as id 
+//     const productRes = await db.query("SELECT * FROM products WHERE id=$1", [id]);
+//     const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
+
+//     res.render("update.ejs", { 
+//       product: productRes.rows[0],
+//       categories: categoriesRes.rows,
+//       searchValue: req.query.search || "",
+//       filterCategory: req.query.filter || "",
+//       pagination: {
+//         current: {
+//           page: parseInt(req.query.page) || 1,
+//           limit: parseInt(req.query.limit) || 10
+//         }
+//       }
+//     });
+//   } catch (error) {
+//     res.status(500).send("▲ Server error: " + error.message);
+//   }
+// });
+
+
+
+// Update product (API JSON)
+// app.post("/products/edit", id_Validation, field_Validation, async (req, res) => {
+//   try {
+
+//     const id = parseInt(req.body.id);
+//     const { name, category_id, mrp, sp, cp, classification, size } = req.body;
+
+//     const searchValue = req.body.searchValue;
+//     const filterCategory = req.body.filterCategory;
+//     const page = parseInt(req.body.page) || 1;
+//     const limit = parseInt(req.body.limit) || 10;
+
+//     const idCheck = await db.query("SELECT * FROM products WHERE id=$1", [id]);
+//     if (idCheck.rows.length === 0) return res.status(400).send("ID not exists");
+
+//     const result = await db.query(
+//       `UPDATE products SET product_name=$2, category_id=$3, mrp=$4, sp=$5, cp=$6, classification=$7, size=$8 
+//        WHERE id=$1 RETURNING *`,
+//       [id, name, category_id, mrp, sp, cp, classification, size]
+//     );
+   
+//     // Auto-submit POST form to restore page + filters
+//     res.send(`
+//       <form id="redirectForm" action="/products" method="POST">
+//         <input type="hidden" name="searchValue" value="${searchValue}">
+//         <input type="hidden" name="filterCategory" value="${filterCategory}">
+//         <input type="hidden" name="page" value="${page}">
+//         <input type="hidden" name="limit" value="${limit}">
+//       </form>
+//       <script>
+//       alert("✔ Product Updated successfully!");
+//         document.getElementById('redirectForm').submit();
+//       </script>
+//     `);
+
+//     console.log({ message: "✅ Product updated successfully", product: result.rows[0] });
+
+//   } catch (error) {
+//     res.status(500).send("▲ Server error: " + error.message);
+//   }
+// });
+// Show edit page (POST only)
+
+
 app.get("/products/edit/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
   try {
-    //show rows that as id 
+    const id = req.params.id;
+
     const productRes = await db.query("SELECT * FROM products WHERE id=$1", [id]);
     const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
 
-    res.render("update.ejs", { 
+    // because GET request has NO body
+    const searchValue = req.query.searchValue || "";
+    const filterCategory = req.query.filterCategory || "";
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    res.render("update.ejs", {
       product: productRes.rows[0],
       categories: categoriesRes.rows,
-      searchValue: req.query.search || "",
-      filterCategory: req.query.filter || "",
+      searchValue,
+      filterCategory,
       pagination: {
-        current: {
-          page: parseInt(req.query.page) || 1,
-          limit: parseInt(req.query.limit) || 10
-        }
+        current: { page, limit }
       }
     });
   } catch (error) {
-    res.status(500).send("▲ Server error: " + error.message);
+    console.log(error.message);
+    res.status(500).send(error.message);
   }
 });
 
 
 
-// Update product (API JSON)
-app.post("/products/edit/:id", id_Validation, field_Validation, async (req, res) => {
+
+app.post("/products/update", id_Validation, field_Validation, async (req, res) => {
   try {
-
-    const id = parseInt(req.params.id);
+    const id = parseInt(req.body.id);
     const { name, category_id, mrp, sp, cp, classification, size } = req.body;
-
-    const searchValue = req.body.searchValue;
-    const filterCategory = req.body.filterCategory;
-    const page = parseInt(req.body.page) || 1;
-    const limit = parseInt(req.body.limit) || 10;
-
-    const idCheck = await db.query("SELECT * FROM products WHERE id=$1", [id]);
-    if (idCheck.rows.length === 0) return res.status(400).send("ID not exists");
 
     const result = await db.query(
       `UPDATE products SET product_name=$2, category_id=$3, mrp=$4, sp=$5, cp=$6, classification=$7, size=$8 
        WHERE id=$1 RETURNING *`,
       [id, name, category_id, mrp, sp, cp, classification, size]
     );
-   
-    // Auto-submit POST form to restore page + filters
+
     res.send(`
       <form id="redirectForm" action="/products" method="POST">
-        <input type="hidden" name="searchValue" value="${searchValue}">
-        <input type="hidden" name="filterCategory" value="${filterCategory}">
-        <input type="hidden" name="page" value="${page}">
-        <input type="hidden" name="limit" value="${limit}">
+        <input type="hidden" name="searchValue" value="${req.body.searchValue}">
+        <input type="hidden" name="filterCategory" value="${req.body.filterCategory}">
+        <input type="hidden" name="page" value="${req.body.page}">
+        <input type="hidden" name="limit" value="${req.body.limit}">
       </form>
       <script>
-      alert("✔ Product Updated successfully!");
+        alert("✔ Product Updated successfully!");
         document.getElementById('redirectForm').submit();
       </script>
     `);
-
-    console.log({ message: "✅ Product updated successfully", product: result.rows[0] });
 
   } catch (error) {
     res.status(500).send("▲ Server error: " + error.message);
