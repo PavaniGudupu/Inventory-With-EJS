@@ -165,7 +165,7 @@ app.post("/products", async (req, res) => {
 
 //To show category dropdown values, we render from db and show here.
 // Add Product page
-
+// get has no req.body
 app.get("/products/add", async (req, res) => {
   try {
     const categoriesRes = await db.query("SELECT * FROM category ORDER BY category_id ASC");
@@ -214,6 +214,11 @@ app.post("/products/add", id_Validation, field_Validation, async (req, res) => {
     const countRes = await db.query("SELECT COUNT(*) FROM products");
     const totalProducts = parseInt(countRes.rows[0].count);
     const lastPage = Math.ceil(totalProducts / limit);
+
+
+    // Browsers cannot auto-redirect to another URL with POST data.
+    // AND send these values using POST, not GET
+    // Return the user back to the products list page
 
     res.send(`
       <form id="redirectForm" action="/products" method="POST">
