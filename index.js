@@ -189,7 +189,7 @@ app.get("/products/add", async (req, res) => {
 });
 
 // Insert product (API JSON)
-app.post("/products/add", id_Validation, field_Validation, async (req, res) => {
+app.post("/products/add", field_Validation, async (req, res) => {
   try {
     const { name, category_id, mrp, sp, cp, classification, size } = req.body;
 

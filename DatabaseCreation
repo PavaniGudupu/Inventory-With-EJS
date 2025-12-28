@@ -1,0 +1,77 @@
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    category VARCHAR(50) UNIQUE NOT NULL
+);
+
+
+
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    product_name VARCHAR(100) UNIQUE NOT NULL,
+    category_id INT,
+    mrp NUMERIC(10,2) NOT NULL,
+    sp NUMERIC(10,2) NOT NULL,
+    cp NUMERIC(10,2) NOT NULL,
+    classification VARCHAR(100),
+    size VARCHAR(20),
+    CONSTRAINT fk_category
+        FOREIGN KEY (category_id)
+        REFERENCES category(category_id)
+        ON DELETE SET NULL
+);
+
+
+
+INSERT INTO category (category) VALUES
+('Grocery'),
+('Electronics'),
+('Clothing'),
+('Stationery'),
+('Home Appliances');
+
+
+
+INSERT INTO products 
+(product_name, category_id, mrp, sp, cp, classification, size)
+VALUES
+('Rice Bag Premium', 1, 1500, 1350, 1200, 'Food Grain', '25kg'),
+('Wheat Flour', 1, 1200, 1080, 950, 'Food Grain', '20kg'),
+('Sugar Pack', 1, 600, 540, 480, 'Food Grain', '10kg'),
+('Basmati Rice', 1, 2200, 1999, 1800, 'Food Grain', '25kg'),
+('Cooking Oil', 1, 1800, 1650, 1500, 'Grocery', '5L'),
+
+('LED TV 42 Inch', 2, 45000, 42000, 39000, 'Electronics', '42 inch'),
+('Smart TV 55 Inch', 2, 65000, 62000, 58000, 'Electronics', '55 inch'),
+('Bluetooth Speaker', 2, 5000, 4500, 3800, 'Electronics', 'Medium'),
+('Wireless Headphones', 2, 3500, 2999, 2500, 'Electronics', 'Standard'),
+('Power Bank', 2, 2500, 2200, 1800, 'Electronics', '10000mAh'),
+
+('Men T-Shirt', 3, 999, 799, 600, 'Casual Wear', 'L'),
+('Women Kurti', 3, 1999, 1799, 1500, 'Ethnic Wear', 'M'),
+('Jeans Pant', 3, 2499, 2199, 1900, 'Casual Wear', '32'),
+('Jacket', 3, 3999, 3499, 3000, 'Winter Wear', 'XL'),
+('Sports Shorts', 3, 1299, 1099, 850, 'Sports Wear', 'M'),
+
+('Notebook A4', 4, 60, 50, 40, 'Office Supply', 'A4'),
+('Notebook Long', 4, 80, 65, 50, 'Office Supply', 'Long'),
+('Ball Pen Pack', 4, 120, 99, 80, 'Office Supply', 'Pack of 10'),
+('Marker Set', 4, 250, 220, 180, 'Office Supply', 'Set'),
+('Sticky Notes', 4, 150, 130, 100, 'Office Supply', 'Small'),
+
+('Mixer Grinder', 5, 3500, 3200, 2800, 'Kitchen Appliance', '3 Jar'),
+('Electric Kettle', 5, 2200, 1999, 1700, 'Kitchen Appliance', '1.5L'),
+('Toaster', 5, 1800, 1599, 1300, 'Kitchen Appliance', '2 Slice'),
+('Induction Stove', 5, 4500, 4100, 3800, 'Kitchen Appliance', '2000W'),
+('Rice Cooker', 5, 3200, 2899, 2600, 'Kitchen Appliance', '2L'),
+
+('Shampoo Bottle', 6, 450, 399, 320, 'Cosmetic', '650ml'),
+('Face Wash', 6, 299, 249, 200, 'Cosmetic', '150ml'),
+('Body Lotion', 6, 550, 499, 420, 'Cosmetic', '400ml'),
+('Hair Oil', 6, 350, 299, 240, 'Cosmetic', '300ml'),
+('Soap Pack', 6, 180, 150, 120, 'Cosmetic', 'Pack of 4'),
+
+('Mobile Charger', 2, 1200, 999, 800, 'Electronics', 'Fast Charge'),
+('USB Cable', 2, 500, 399, 300, 'Electronics', '1m'),
+('Laptop Bag', 2, 2500, 2200, 1800, 'Accessories', '15 inch'),
+('Mouse Wireless', 2, 1500, 1299, 1000, 'Accessories', 'Standard'),
+('Keyboard', 2, 1800, 1599, 1300, 'Accessories', 'USB');
