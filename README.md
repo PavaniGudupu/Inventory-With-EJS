@@ -1,5 +1,4 @@
-Inventory Management System using EJS and PostgreSQL.
-A full-stack web app with search, filter, pagination, and CRUD.
+Inventory Management System using EJS and PostgreSQL. A full-stack web app with search, filter, pagination, and CRUD operations.
 
 
 # 📦 Inventory Management System (EJS + PostgreSQL)
